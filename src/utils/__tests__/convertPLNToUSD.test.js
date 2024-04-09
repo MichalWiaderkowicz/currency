@@ -16,5 +16,12 @@ describe("ConvertPLNtoUSD", () => {
 
   it("should return NaN if input is empty", () => {
     expect(convertPLNToUSD()).toBeNaN();
+    expect(convertPLNToUSD(null)).toBeNaN();
+  });
+
+  it('should return "Error" if input is not a text or number', () => {
+    expect(convertPLNToUSD([])).toBe("Error");
+    expect(convertPLNToUSD({})).toBe("Error");
+    expect(convertPLNToUSD(function () {})).toBe("Error");
   });
 });
