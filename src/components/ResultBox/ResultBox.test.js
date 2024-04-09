@@ -110,4 +110,35 @@ describe("Component ResultBox", () => {
       });
     }
   });
+  describe('should render "Wrong value..." when input < 0', () => {
+    const testCases = [
+      { amount: "-100", from: "PLN", to: "PLN", result: "Wrong value..." },
+      { amount: "-10", from: "USD", to: "USD", result: "Wrong value..." },
+      { amount: "-240", from: "PLN", to: "USD", result: "Wrong value..." },
+      { amount: "-15", from: "USD", to: "PLN", result: "Wrong value..." },
+    ];
+
+    for (const testObj of testCases) {
+      it("test", () => {
+        //render component
+        render(
+          <ResultBox
+            key={testObj.from}
+            from={testObj.from}
+            to={testObj.to}
+            amount={testObj.amount}
+          />
+        );
+
+        //find main div
+        const resultField = screen.getByTestId("result");
+
+        // check if output = input
+        expect(resultField).toHaveTextContent(testObj.result);
+
+        // unmount component
+        cleanup();
+      });
+    }
+  });
 });
