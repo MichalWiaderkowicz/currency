@@ -73,4 +73,41 @@ describe("Component ResultBox", () => {
       });
     }
   });
+
+  describe("should render proper info about conversion when from=to", () => {
+    const testCases = [
+      {
+        amount: "100",
+        from: "PLN",
+        to: "PLN",
+        result: "PLN 100.00 = PLN 100.00",
+      },
+      { amount: "100", from: "USD", to: "USD", result: "$100.00 = $100.00" },
+      { amount: "25", from: "PLN", to: "PLN", result: "PLN 25.00 = PLN 25.00" },
+      { amount: "25", from: "USD", to: "USD", result: "$25.00 = $25.00" },
+    ];
+
+    for (const testObj of testCases) {
+      it("test", () => {
+        //render component
+        render(
+          <ResultBox
+            key={testObj.from}
+            from={testObj.from}
+            to={testObj.to}
+            amount={testObj.amount}
+          />
+        );
+
+        //find main div
+        const resultField = screen.getByTestId("result");
+
+        // check if output = input
+        expect(resultField).toHaveTextContent(testObj.result);
+
+        // unmount component
+        cleanup();
+      });
+    }
+  });
 });
