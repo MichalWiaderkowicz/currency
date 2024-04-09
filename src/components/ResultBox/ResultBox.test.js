@@ -39,4 +39,38 @@ describe("Component ResultBox", () => {
       });
     }
   });
+
+  describe("should render proper info about conversion when USD -> PLN", () => {
+    const testCases = [
+      { amount: "100", result: "$100.00 = PLN 350.00" },
+      { amount: "20", result: "$20.00 = PLN 70.00" },
+      { amount: "200", result: "$200.00 = PLN 700.00" },
+      { amount: "345", result: "$345.00 = PLN 1,207.50" },
+    ];
+
+    for (const testObj of testCases) {
+      const amountAsNum = parseInt(testObj.amount);
+
+      it("test", () => {
+        // render component
+        render(
+          <ResultBox
+            key={testObj.amount}
+            from="USD"
+            to="PLN"
+            amount={amountAsNum}
+          />
+        );
+
+        // find main div
+        const resultField = screen.getByTestId("result");
+
+        // check if output = input
+        expect(resultField).toHaveTextContent(testObj.result);
+
+        // unmount component
+        cleanup();
+      });
+    }
+  });
 });
